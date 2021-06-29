@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".MainActivity">
+
+    // TextView: Display whether bluetooth is available or not
+    <TextView
+        android:id="@+id/bluetoothStatusTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Test"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    // ImageView : BT icon (on/off)
+    <ImageView
+        android:id="@+id/bluetoothIv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_bluetooth_off" />
+
+    // Button : Turn BT On
+    <Button
+        android:id="@+id/turnOnBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Turn On"
+        android:minWidth="200dp"/>
+
+    // Button : Turn BT Off
+    <Button
+        android:id="@+id/turnOffBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Turn Off"
+        android:minWidth="200dp"/>
+
+    // Button : Make BT Discoverable
+
+    // Button : Get list of paired devices
+
+    <Button
+        android:id="@+id/pairedBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Get Paired Devices"
+        android:minWidth="200dp"/>
+
+    // Button : Show list of paired devices
+
+    <TextView
+        android:id="@+id/pairedTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Test"
+        />
+
+    <ListView
+        android:id="@+id/paired_list"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pairedTv"></ListView>
+
+</LinearLayout>
