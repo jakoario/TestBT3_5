@@ -154,8 +154,8 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         if (::oldLocation.isInitialized) {  // oldLocation doit être initialisé pour pouvoir l'utiliser
             // OldLocation est initialisé après la 1ère detection de changement de location, dans onLocationChanged
             val distance: Float = oldLocation.distanceTo(location)
-            distanceCumul += distance
-            val distanceCumulArrondi = round(distanceCumul)
+            distanceCumulGPS += distance
+            val distanceCumulArrondi = round(distanceCumulGPS)
             val strdistanceCumul: String = distanceCumulArrondi.toString()
 
             distanceGPSData.text = strdistanceCumul + " m"
