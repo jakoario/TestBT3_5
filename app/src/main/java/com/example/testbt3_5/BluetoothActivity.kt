@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
+import kotlin.math.round
 
 
 class BluetoothActivity : AppCompatActivity(), LocationListener {
@@ -24,7 +25,10 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
     private lateinit var distanceData: TextView
     private lateinit var address: String
     private lateinit var speedGPSData: TextView
+    private lateinit var distanceGPSData: TextView
+    private lateinit var oldLocation: Location
     var distanceCumul: Double = 0.0
+    var distanceCumulGPS: Double = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +45,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         speedData.movementMethod = ScrollingMovementMethod() // make it scrollable
         distanceData = findViewById(R.id.dist_text)
         speedGPSData = findViewById(R.id.tv_speedGPS)
+        distanceGPSData = findViewById(R.id.dist_textGPS)
 
         // check for gps permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -93,10 +98,13 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    // Location and GPS methods
+
     override fun onLocationChanged(location: Location) {
         if (location != null) run {
             val myLocation = CLocation(location)
             this.updateSpeed(myLocation)
+            oldLocation = myLocation
         }
     }
 
@@ -142,6 +150,16 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
 
         speedGPSData.text = strCurrentSpeed + " km/h"
 
+        // distance cumulee
+        if (::oldLocation.isInitialized) {  // oldLocation doit être initialisé pour pouvoir l'utiliser
+            // OldLocation est initialisé après la 1ère detection de changement de location, dans onLocationChanged
+            val distance: Float = oldLocation.distanceTo(location)
+            distanceCumul += distance
+            val distanceCumulArrondi = round(distanceCumul)
+            val strdistanceCumul: String = distanceCumulArrondi.toString()
+
+            distanceGPSData.text = strdistanceCumul + " m"
+        }
     }
 
     override fun onRequestPermissionsResult(
