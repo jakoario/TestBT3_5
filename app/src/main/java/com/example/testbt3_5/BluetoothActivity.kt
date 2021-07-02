@@ -83,7 +83,13 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
                     val calculspeed: Double = speed * 1.44 / periode
                     if (calculspeed != 0.0) {
                         val roundspeed = BigDecimal(calculspeed).setScale(2, RoundingMode.HALF_EVEN) // arrondi à 2 décimales
-                        speedData.append(roundspeed.toString() + "\n")
+                        speedData.text = roundspeed.toString() + "\n"
+
+                        // sauvegarde de donnees
+                        if (isExternalStorageReadable()) {
+                            saveData("saveOBDspeedData1.txt", speedData.text.toString())
+                            saveData("saveGPSspeedData1.txt", speedGPSData.text.toString())
+                        }
                     }
                 } else {
                     speedData.append("error\n")
@@ -95,22 +101,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
                     val rounddist = BigDecimal(distanceCumul).setScale(2, RoundingMode.HALF_EVEN) // arrondi à 2 décimales
                     distanceData.text = rounddist.toString() + " m"
 
-                    // sauvegarde de donnees
-                    if (isExternalStorageReadable()) {
-                        val file = File(getExternalFilesDir(null), "saveOBDspeedData1.txt") // nom du fichier à changer
-                        var outputStream: FileOutputStream? = null
-                        try {
-                            file.createNewFile()
-                            //second argument of FileOutputStream constructor indicates whether
-                            //to append or create new file if one exists
-                            outputStream = FileOutputStream(file, true)
-                            outputStream.write(speedData.text.toString().toByteArray())
-                            outputStream.flush()
-                            outputStream.close()
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
+
                 }
             }
         }
@@ -166,7 +157,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         var strCurrentSpeed: String = fmt.toString()
         strCurrentSpeed = strCurrentSpeed.replace(" ", "0")
 
-        speedGPSData.text = strCurrentSpeed + " km/h"
+        speedGPSData.text = strCurrentSpeed + " km/h \n"
 
         // distance cumulee
         if (::oldLocation.isInitialized) {  // oldLocation doit être initialisé pour pouvoir l'utiliser
@@ -199,6 +190,22 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
     private fun isExternalStorageReadable(): Boolean {
         return Environment.getExternalStorageState() in
                 setOf(Environment.MEDIA_MOUNTED, Environment.MEDIA_MOUNTED_READ_ONLY)
+    }
+
+    fun saveData(dataName: String, data: String) {
+        val file = File(getExternalFilesDir(null), dataName) // nom du fichier à changer
+        var outputStream: FileOutputStream? = null
+        try {
+            file.createNewFile()
+            //second argument of FileOutputStream constructor indicates whether
+            //to append or create new file if one exists
+            outputStream = FileOutputStream(file, true)
+            outputStream.write(data.toByteArray())
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }
