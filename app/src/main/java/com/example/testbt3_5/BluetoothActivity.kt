@@ -6,8 +6,9 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.*
-import android.text.method.ScrollingMovementMethod
+import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
     private lateinit var speedGPSData: TextView
     private lateinit var distanceGPSData: TextView
     private lateinit var oldLocation: Location
+    private lateinit var boutonStop: Button
     var distanceCumul: Double = 0.0
     var distanceCumulGPS: Double = 0.0
 
@@ -43,11 +45,12 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         distanceData = findViewById(R.id.dist_text)
         speedGPSData = findViewById(R.id.tv_speedGPS)
         distanceGPSData = findViewById(R.id.dist_textGPS)
+        boutonStop = findViewById(R.id.bouton_stop)
 
         // check for gps permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
+            != PackageManager.PERMISSION_GRANTED)
+            {
             requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1000)
         } else {
             // start the program if the permission is granted
@@ -58,6 +61,12 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         bt.connect()
 
         this.updateSpeed(null)
+
+        boutonStop.setOnClickListener(View.OnClickListener {
+            saveData("saveOBDdistanceData1.txt", distanceData.text.toString() + "\n")
+            saveData("saveGPSdistanceData1.txt", distanceGPSData.text.toString() + "\n")
+            finish()
+        })
 
     }
 
