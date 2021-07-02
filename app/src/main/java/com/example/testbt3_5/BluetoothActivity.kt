@@ -12,6 +12,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import java.io.File
+import java.io.FileOutputStream
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
@@ -35,7 +37,6 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // desactive la mise en veille automatique
         setContentView(R.layout.activity_bluetooth)
-
 
         address = intent.getStringExtra(MainActivity.EXTRA_ADDRESS).toString()
 
@@ -93,6 +94,23 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
                     distanceCumul += speed * 0.4
                     val rounddist = BigDecimal(distanceCumul).setScale(2, RoundingMode.HALF_EVEN) // arrondi à 2 décimales
                     distanceData.text = rounddist.toString() + " m"
+
+                    // sauvegarde de donnees
+                    if (isExternalStorageReadable()) {
+                        val file = File(getExternalFilesDir(null), "saveOBDspeedData1.txt") // nom du fichier à changer
+                        var outputStream: FileOutputStream? = null
+                        try {
+                            file.createNewFile()
+                            //second argument of FileOutputStream constructor indicates whether
+                            //to append or create new file if one exists
+                            outputStream = FileOutputStream(file, true)
+                            outputStream.write(speedData.text.toString().toByteArray())
+                            outputStream.flush()
+                            outputStream.close()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                 }
             }
         }
@@ -162,6 +180,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    // Permission GPS
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -175,6 +194,11 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
                 finish()
             }
         }
+    }
+
+    private fun isExternalStorageReadable(): Boolean {
+        return Environment.getExternalStorageState() in
+                setOf(Environment.MEDIA_MOUNTED, Environment.MEDIA_MOUNTED_READ_ONLY)
     }
 
 }
