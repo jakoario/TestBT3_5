@@ -17,7 +17,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Date
 import kotlin.math.round
 
 
@@ -30,6 +32,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
     private lateinit var distanceGPSData: TextView
     private lateinit var oldLocation: Location
     private lateinit var boutonStop: Button
+    private lateinit var filename: String
     var distanceCumul: Double = 0.0
     var distanceCumulGPS: Double = 0.0
 
@@ -62,9 +65,15 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
 
         this.updateSpeed(null)
 
+        // creer le nom du fichier de sauvegarde des donnees
+        val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.FRANCE)
+        val date = Date()
+        filename = formatter.format(date) + "save.txt"
+
         boutonStop.setOnClickListener(View.OnClickListener {
-            saveData("saveOBDdistanceData3.txt", distanceData.text.toString() + "\n")
-            saveData("saveGPSdistanceData3.txt", distanceGPSData.text.toString() + "\n")
+            saveData(filename, "\t\t" + distanceData.text.toString())
+            saveData(filename, "\t\t" + distanceGPSData.text.toString())
+            bt.close()
             finish()
         })
 
@@ -91,8 +100,8 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
 
                         // sauvegarde de donnees
                         if (isExternalStorageReadable()) {
-                            saveData("saveOBDspeedData3.txt", speedData.text.toString() + "\n")
-                            saveData("saveGPSspeedData3.txt", speedGPSData.text.toString() + "\n")
+                            saveData(filename, "\n" + speedData.text.toString())
+                            saveData(filename, "\t\t" + speedGPSData.text.toString())
                         }
                     }
                 } else {
