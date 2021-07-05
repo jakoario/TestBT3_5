@@ -100,8 +100,9 @@ class MainActivity : AppCompatActivity() {
 
                 Toast.makeText(this, "Turn on bluetooth first", Toast.LENGTH_LONG).show()
             }
-            val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, deviceslist)
-            paired_list.adapter = adapter
+            //val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_2, deviceslist)
+            val myListAdapter = MyListAdapter(this,namelist,deviceslist)
+            paired_list.adapter = myListAdapter
             paired_list.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                 val selectDeviceName = namelist[position]
                 Toast.makeText(this, "Selected device : $selectDeviceName", Toast.LENGTH_SHORT)

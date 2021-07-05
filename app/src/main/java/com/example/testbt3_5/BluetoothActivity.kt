@@ -63,8 +63,8 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         this.updateSpeed(null)
 
         boutonStop.setOnClickListener(View.OnClickListener {
-            saveData("saveOBDdistanceData1.txt", distanceData.text.toString() + "\n")
-            saveData("saveGPSdistanceData1.txt", distanceGPSData.text.toString() + "\n")
+            saveData("saveOBDdistanceData3.txt", distanceData.text.toString() + "\n")
+            saveData("saveGPSdistanceData3.txt", distanceGPSData.text.toString() + "\n")
             finish()
         })
 
@@ -91,8 +91,8 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
 
                         // sauvegarde de donnees
                         if (isExternalStorageReadable()) {
-                            saveData("saveOBDspeedData1.txt", speedData.text.toString() + "\n")
-                            saveData("saveGPSspeedData1.txt", speedGPSData.text.toString() + "\n")
+                            saveData("saveOBDspeedData3.txt", speedData.text.toString() + "\n")
+                            saveData("saveGPSspeedData3.txt", speedGPSData.text.toString() + "\n")
                         }
                     }
                 } else {
@@ -134,13 +134,6 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
                     android.Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0F, this)
@@ -189,6 +182,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         }
     }
 
+    // Vérifie si le stockage externe est possible
     private fun isExternalStorageReadable(): Boolean {
         return Environment.getExternalStorageState() in
                 setOf(Environment.MEDIA_MOUNTED, Environment.MEDIA_MOUNTED_READ_ONLY)
