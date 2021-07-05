@@ -91,7 +91,6 @@ class MainActivity : AppCompatActivity() {
 
                 for (bt: BluetoothDevice in devices) {
                     val deviceName = bt.name
-                    pairedTv.append("\nDevice : $deviceName , $bt") // remplir la zone de texte
                     namelist.add(deviceName)
                     deviceslist.add(bt)
                     Log.i("device", ""+bt) // remplir la listview
@@ -100,8 +99,8 @@ class MainActivity : AppCompatActivity() {
 
                 Toast.makeText(this, "Turn on bluetooth first", Toast.LENGTH_LONG).show()
             }
-            //val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_2, deviceslist)
-            val myListAdapter = MyListAdapter(this,namelist,deviceslist)
+
+            val myListAdapter = MyListAdapter(this,deviceslist)
             paired_list.adapter = myListAdapter
             paired_list.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                 val selectDeviceName = namelist[position]

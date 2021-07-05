@@ -1,27 +1,36 @@
 package com.example.testbt3_5
 
-import android.app.Activity
 import android.bluetooth.BluetoothDevice
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.BaseAdapter
 import android.widget.TextView
 
-class MyListAdapter(private val context: Activity, private val devicename: MutableList<String>, private val MACaddress: ArrayList<BluetoothDevice>) :
-    ArrayAdapter<String>(context, R.layout.custom_listview) {
+class MyListAdapter(private val context: Context, private val dataSource: ArrayList<BluetoothDevice>): BaseAdapter() {
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val inflater = context.layoutInflater
-        val rowView = inflater.inflate(R.layout.custom_listview, null, true)
+    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val NameText = rowView.findViewById(R.id.device_name) as TextView
-        val addressText = rowView.findViewById(R.id.MAC_address) as TextView
-
-        NameText.text = devicename[position]
-        addressText.text = MACaddress[position].toString()
-
-
-        return rowView
+    override fun getCount(): Int {
+        return dataSource.size // return size of data source
     }
 
+    override fun getItem(position: Int): Any {
+        return dataSource[position]
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong() // the Id is the position of the Item
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val rowView = inflater.inflate(R.layout.custom_listview, parent, false)
+        val nameTextView = rowView.findViewById(R.id.device_name) as TextView
+        val addressTextView = rowView.findViewById(R.id.MAC_address) as TextView
+        val bt = getItem(position) as BluetoothDevice
+        nameTextView.text = bt.name
+        addressTextView.text = bt.address
+        return rowView
+    }
 }
