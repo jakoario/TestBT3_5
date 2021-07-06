@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Turn on bluetooth first", Toast.LENGTH_LONG).show()
             }
 
-            val myListAdapter = MyListAdapter(this,deviceslist)
+            val myListAdapter = MyListAdapter(this, deviceslist)
             paired_list.adapter = myListAdapter
             paired_list.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                 val selectDeviceName = namelist[position]
@@ -121,9 +121,7 @@ class MainActivity : AppCompatActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
-
     private fun onActivityResult(requestCode: Int, result: ActivityResult) {
-        val intent = result.data
         when(requestCode) {
             REQUEST_CODE_ENABLE_BT ->
                 if(result.resultCode == Activity.RESULT_OK) {
@@ -136,4 +134,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-

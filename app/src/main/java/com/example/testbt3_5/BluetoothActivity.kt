@@ -65,16 +65,17 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
 
         this.updateSpeed(null)
 
-        // creer le nom du fichier de sauvegarde des donnees
+        // creer le nom du fichier de sauvegarde des donnees avec la date
         val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.FRANCE)
         val date = Date()
         filename = formatter.format(date) + "save.txt"
 
         boutonStop.setOnClickListener(View.OnClickListener {
+            // sauvegarde des distances cumulees avant de fermer l activite
             saveData(filename, "\t\t" + distanceData.text.toString())
             saveData(filename, "\t\t" + distanceGPSData.text.toString())
-            bt.close()
-            finish()
+            bt.close() // ferme la connexion Bluetooth
+            finish() // ferme l activite
         })
 
     }
@@ -96,12 +97,14 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
                     val calculspeed: Double = speed * 1.44 / periode
                     if (calculspeed != 0.0) {
                         val roundspeed = BigDecimal(calculspeed).setScale(2, RoundingMode.HALF_EVEN) // arrondi à 2 décimales
-                        speedData.text = roundspeed.toString()
+                        val fmt = Formatter(StringBuilder())
+                        fmt.format(Locale.FRANCE, "%5.1f", roundspeed) // mise en page
+                        speedData.text = fmt.toString()
 
                         // sauvegarde de donnees
                         if (isExternalStorageReadable()) {
-                            saveData(filename, "\n" + speedData.text.toString())
-                            saveData(filename, "\t\t" + speedGPSData.text.toString())
+                            saveData(filename, "\n" + speedData.text)
+                            saveData(filename, "\t\t" + speedGPSData.text)
                         }
                     }
                 } else {
@@ -159,7 +162,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         val fmt = Formatter(StringBuilder())
         fmt.format(Locale.FRANCE, "%5.1f", nCurrentSpeed)
         var strCurrentSpeed: String = fmt.toString()
-        strCurrentSpeed = strCurrentSpeed.replace(" ", "0")
+        // strCurrentSpeed = strCurrentSpeed.replace(" ", "0")
 
         speedGPSData.text = strCurrentSpeed
 

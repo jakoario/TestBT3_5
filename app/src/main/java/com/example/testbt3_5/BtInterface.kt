@@ -9,12 +9,10 @@ import java.io.InputStream
 import java.util.*
 
 
-
 class BtInterface(var h: Handler, var address: String) {
 
     companion object {
         lateinit var socket: BluetoothSocket
-        lateinit var handler: Handler
     }
 
     var m_bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
