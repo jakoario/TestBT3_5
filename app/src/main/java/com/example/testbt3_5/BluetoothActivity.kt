@@ -173,8 +173,8 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
                 Location.distanceBetween(oldLocation.latitude, oldLocation.longitude, location.latitude, location.longitude, results)
             }
             val distance: Float = results[0]
-            distanceCumul += distance
-            val distanceCumulArrondi = round(distanceCumul)
+            distanceCumulGPS += distance
+            val distanceCumulArrondi = round(distanceCumulGPS)
             val strdistanceCumul: String = distanceCumulArrondi.toString()
 
             distanceGPSData.text = strdistanceCumul + " m"

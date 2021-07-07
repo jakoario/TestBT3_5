@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
     //bluetooth adapter
     lateinit var bAdapter: BluetoothAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // desactive la mise en veille automatique
