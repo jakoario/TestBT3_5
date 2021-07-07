@@ -161,21 +161,25 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         }
         val fmt = Formatter(StringBuilder())
         fmt.format(Locale.FRANCE, "%5.1f", nCurrentSpeed)
-        var strCurrentSpeed: String = fmt.toString()
-        // strCurrentSpeed = strCurrentSpeed.replace(" ", "0")
+        val strCurrentSpeed: String = fmt.toString()
 
         speedGPSData.text = strCurrentSpeed
 
         // distance cumulee
         if (::oldLocation.isInitialized) {  // oldLocation doit être initialisé pour pouvoir l'utiliser
             // OldLocation est initialisé après la 1ère detection de changement de location, dans onLocationChanged
-            val distance: Float = oldLocation.distanceTo(location)
-            distanceCumulGPS += distance
-            val distanceCumulArrondi = round(distanceCumulGPS)
+            val results = FloatArray(1)
+            if (location != null) {
+                Location.distanceBetween(oldLocation.latitude, oldLocation.longitude, location.latitude, location.longitude, results)
+            }
+            val distance: Float = results[0]
+            distanceCumul += distance
+            val distanceCumulArrondi = round(distanceCumul)
             val strdistanceCumul: String = distanceCumulArrondi.toString()
 
             distanceGPSData.text = strdistanceCumul + " m"
         }
+
     }
 
     // Permission GPS
