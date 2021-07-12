@@ -23,7 +23,7 @@ class MyListAdapter(private val context: Context, private val dataSource: ArrayL
     override fun getItemId(position: Int): Long {
         return position.toLong() // the Id is the position of the Item
     }
-
+    // mise en page de la listview avec custom_listview.xml
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val rowView = inflater.inflate(R.layout.custom_listview, parent, false)
         val nameTextView = rowView.findViewById(R.id.device_name) as TextView

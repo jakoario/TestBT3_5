@@ -42,7 +42,8 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // desactive la mise en veille automatique
         setContentView(R.layout.activity_bluetooth)
 
-        address = intent.getStringExtra(MainActivity.EXTRA_ADDRESS).toString()
+        address = intent.getStringExtra(MainActivity.EXTRA_ADDRESS).toString() // récupère l'adresse
+        // du Bluetooth déterminée dans l'activité précédente (MainActivity)
 
         speedData = findViewById(R.id.speed_text)
         distanceData = findViewById(R.id.dist_text)
@@ -68,7 +69,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         // creer le nom du fichier de sauvegarde des donnees avec la date
         val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.FRANCE)
         val date = Date()
-        filename = formatter.format(date) + "save.txt"
+        filename = formatter.format(date) + "BT3_5.txt"
 
         boutonStop.setOnClickListener(View.OnClickListener {
             // sauvegarde des distances cumulees avant de fermer l activite
@@ -82,7 +83,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // reactive la mise en veille automatique
     }
 
     val handler: Handler = object : Handler(Looper.getMainLooper()) {
@@ -213,7 +214,7 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
             //to append or create new file if one exists
             outputStream = FileOutputStream(file, true)
             outputStream.write(data.toByteArray())
-            outputStream.flush()
+            outputStream.flush() // inutile ?
             outputStream.close()
         } catch (e: Exception) {
             e.printStackTrace()
