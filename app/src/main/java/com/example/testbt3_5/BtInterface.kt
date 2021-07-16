@@ -74,6 +74,7 @@ class BtInterface(var h: Handler, var address: String) {
 
                 } catch (e: IOException) {
                     e.printStackTrace()
+                    break
                 }
             }
         }

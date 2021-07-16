@@ -136,6 +136,10 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
 
     }
 
+    override fun onProviderDisabled(provider: String) {
+
+    }
+
     private fun doStuff() {
         val locationManager = this.getSystemService(LOCATION_SERVICE) as LocationManager
         if(locationManager !=null) {
