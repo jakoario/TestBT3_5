@@ -36,6 +36,7 @@ class BtInterface(var h: Handler, var address: String) {
                         socket.close()
                     } catch (closeException: IOException) {
                         closeException.printStackTrace()
+
                     }
                 }
             }

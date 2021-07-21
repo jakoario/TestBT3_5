@@ -51,13 +51,13 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
         distanceGPSData = findViewById(R.id.dist_textGPS)
         boutonStop = findViewById(R.id.bouton_stop)
 
-        // check for gps permission
+        // vérifie les permissions gps
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED)
             {
             requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1000)
         } else {
-            // start the program if the permission is granted
+            // démarre le programme si les permissions ont été acceptées
             doStuff()
         }
 
@@ -155,7 +155,6 @@ class BluetoothActivity : AppCompatActivity(), LocationListener {
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0F, this)
         }
-        Toast.makeText(this, "Waiting for GPS connection", Toast.LENGTH_SHORT).show()
     }
 
     private fun updateSpeed(location: CLocation?) {

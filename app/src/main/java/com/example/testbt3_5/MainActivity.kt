@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val EXTRA_ADDRESS: String = "Device_address"
     }
-    //bluetooth adapter
+    // adaptateur bluetooth
     lateinit var bAdapter: BluetoothAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) // desactive la mise en veille automatique
         setContentView(R.layout.activity_main)
 
-        // init bluetooth adapter
+        // initialisation de l'adaptateur bluetooth
         bAdapter = BluetoothAdapter.getDefaultAdapter()
         // check if bluetooth is available or not
         if(bAdapter==null) {
@@ -43,13 +43,13 @@ class MainActivity : AppCompatActivity() {
         else {
             bluetoothStatusTv.text = "Bluetooth is available"
         }
-        // set image according to BT status (on/off)
+        // Affiche la bonne image BT (on/off)
         if (bAdapter.isEnabled){
-            // BT is on
+            // BT on
             bluetoothIv.setImageResource(R.drawable.ic_bluetooth_on)
         }
         else {
-            // BT is off
+            // BT off
             bluetoothIv.setImageResource(R.drawable.ic_bluetooth_off)
         }
 
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        // get list of paired devices
+        // récupère la liste des appareils appairés
         pairedBtn.setOnClickListener {
             val devices = bAdapter.bondedDevices
             val deviceslist: ArrayList<BluetoothDevice> = ArrayList()
@@ -88,7 +88,6 @@ class MainActivity : AppCompatActivity() {
             if (bAdapter.isEnabled) {
 
                 pairedTv.text = "Paired Devices"
-                // get list of paired devices
 
                 for (bt: BluetoothDevice in devices) {
                     val deviceName = bt.name
@@ -110,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                 val device: BluetoothDevice = deviceslist[position]
                 val address: String = device.address
 
+                // démarre une nouvelle activité
                 val i = Intent(this, BluetoothActivity::class.java)
                 i.putExtra(EXTRA_ADDRESS, address)
                 startActivity(i)
